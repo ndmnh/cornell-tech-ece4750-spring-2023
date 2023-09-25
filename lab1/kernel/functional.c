@@ -1,4 +1,5 @@
 #include "functional.h"
+#include <math.h>
 
 float relu(float x)
 {
