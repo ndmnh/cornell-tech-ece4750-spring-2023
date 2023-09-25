@@ -11,7 +11,7 @@ void test_softmax(void) {
 
     // Check that the sum of the output is 0 (because the output is log softmax)
     for (int i = 0; i < 3; i++) {
-        sum += expf(output[i]);
+        sum += output[i];
     }
 
     TEST_ASSERT_FLOAT_WITHIN(1e-6, 1.0, sum);
