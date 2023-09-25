@@ -11,7 +11,13 @@ float **matmul(float **A, float **B, int A_rows, int A_cols, int B_rows, int B_c
         C[i] = (float *)malloc(B_cols * sizeof(float));
     }
 
-    /**** YOUR CODE HERE ****/
+    for (int i = 0; i < A_rows; i++) {
+        for (int j = 0; j < B_cols; j++) {
+            for (int k = 0; k < A_cols; k++) {
+                C[i][j] += A[i][k] * B[k][j];
+            }
+        }
+    }
 
     return C;
 }
