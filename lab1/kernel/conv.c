@@ -23,17 +23,17 @@ float ***convolution(float ***image, int numChannels, float ****kernel, float *b
     for (int filter_idx = 0; filter_idx < numFilters; filter_idx++) {
         for (int out_row = 0; out_row < outputSize; out_row++) {
             for (int out_col = 0; out_col < outputSize; out_col++) {
-                float sum = 0;
+                float val = 0;
                 for (int ch = 0; ch < numChannels; ch++) {
                     for (int ker_row = 0; ker_row < kernelSize; ker_row++) {
                         for (int ker_col = 0; ker_col < kernelSize; ker_col++) {
                             int in_row = out_row + ker_row;
                             int in_col = out_col + ker_col;
-                            sum += image[ch][in_row][in_col] * kernel[filter_idx][ch][ker_row][ker_col];
+                            val += image[ch][in_row][in_col] * kernel[filter_idx][ch][ker_row][ker_col];
                         }
                     }
                 }
-                convOutput[filter_idx][out_row][out_col] = relu(sum + biasData[filter_idx]);
+                convOutput[filter_idx][out_row][out_col] = relu(val + biasData[filter_idx]);
             }
         }
     }

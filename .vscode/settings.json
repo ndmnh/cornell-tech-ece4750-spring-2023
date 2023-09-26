@@ -1,0 +1,19 @@
+{
+    "files.associations": {
+        "__locale": "c",
+        "__hash_table": "c",
+        "__split_buffer": "c",
+        "array": "c",
+        "bitset": "c",
+        "initializer_list": "c",
+        "string": "c",
+        "string_view": "c",
+        "unordered_map": "c",
+        "vector": "c",
+        "iterator": "c",
+        "utility": "c",
+        "linear.h": "c",
+        "data_utils.h": "c",
+        "helpers.h": "c"
+    }
+}
