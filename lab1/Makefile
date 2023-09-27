@@ -2,8 +2,8 @@ CC = gcc
 CFLAGS = -I. -lm
 
 HDF5_FLAGS = -I/usr/include/hdf5/serial -L/usr/lib/x86_64-linux-gnu/hdf5/serial -lhdf5
-COMMON_HDRS = ./utils/data_utils.h ./kernel/conv.h ./kernel/functional.h ./kernel/matrix_ops.h ./kernel/linear.h
-COMMON_SRC = ./utils/data_utils.c ./kernel/conv.c ./kernel/functional.c ./kernel/matrix_ops.c ./kernel/linear.c
+COMMON_HDRS = ./utils/data_utils.h ./kernel/conv.h ./kernel/functional.h ./kernel/matrix_ops.h ./kernel/linear.h ./utils/helpers.h
+COMMON_SRC = ./utils/data_utils.c ./kernel/conv.c ./kernel/functional.c ./kernel/matrix_ops.c ./kernel/linear.c ./utils/helpers.c
 
 # Unity test framework
 UNITY_FILES = ./tests/unity/unity.c
