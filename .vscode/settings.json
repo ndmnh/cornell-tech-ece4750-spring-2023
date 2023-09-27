@@ -14,6 +14,13 @@
         "utility": "c",
         "linear.h": "c",
         "data_utils.h": "c",
-        "helpers.h": "c"
+        "helpers.h": "c",
+        "stdlib.h": "c",
+        "test_conv.h": "c",
+        "__tuple": "c",
+        "chrono": "c",
+        "variant": "c",
+        "matrix_ops.h": "c",
+        "conv.h": "c"
     }
 }
