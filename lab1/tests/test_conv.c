@@ -131,49 +131,5 @@ void test_conv(void)
     );
 
     convolution(large_img, channel_size, p_kernel, biases, num_filters, large_input_size, filter_size);
-
-
-    // free image_data
-    for (int i=0; i<channel_size; i++) {
-        for (int j=0; j<input_size; j++) {
-            for (int k=0; k<input_size; k++) {
-                free(p_image_data[i][j][k]);
-            }
-            free(p_image_data[i][j]);
-        }
-        free(p_image_data[i]);
-    }
-    free(p_image_data);
-
-    // free kernel
-    for (int i=0; i<num_filters; i++) {
-        for (int j=0; j<channel_size; j++) {
-            for (int k=0; k<filter_size; k++) {
-                for (int m=0; m<filter_size; m++) {
-                    free(p_kernel[i][j][k][m]);
-                }
-                free(p_kernel[i][j][k]);
-            }
-            free(p_kernel[i][j]);
-        }
-        free(p_kernel[i]);
-    }
-    free(p_kernel);
-
-    // free results
-    for (int i = 0; i < 1; i++) {
-        for (int j = 0; i < 3; i++) {
-            for (int k = 0; k < 3; k++) {
-                free(p_correct_result[i][j][k]);
-                free(computed_result[i][j][k]);
-            }
-            free(p_correct_result[i][j]);
-            free(computed_result[i][j]);
-        }
-        free(p_correct_result[i]);
-        free(computed_result[i]);
-    }
-    free(p_correct_result);
-    free(computed_result);
 }
 
