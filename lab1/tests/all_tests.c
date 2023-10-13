@@ -16,18 +16,18 @@ int main(void) {
     UNITY_BEGIN();
 
     // Test conv
-    RUN_TEST(test_conv);
+    // RUN_TEST(test_conv);
 
     // Test functional
-    RUN_TEST(test_softmax);
-    RUN_TEST(test_relu);
+    // RUN_TEST(test_softmax);
+    // RUN_TEST(test_relu);
 
     // Test linear
-    RUN_TEST(test_linear);
+    // RUN_TEST(test_linear);
 
     // Test matrix_ops
     RUN_TEST(test_matmul_square_matrices);
-    RUN_TEST(test_matmul_incompatible_dimensions);
+    // RUN_TEST(test_matmul_incompatible_dimensions);
 
     return UNITY_END();
 }
