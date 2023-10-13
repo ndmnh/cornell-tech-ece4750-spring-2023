@@ -6,8 +6,50 @@
 #include "test_matrix_ops.h"
 #include "../utils/helpers.h"
 
+void printMatrix(float **matrix, int rows, int cols) {
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            printf("%f\t", matrix[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+int limited_rand() {
+    int res = rand() % 100;
+    if (res < 80) {
+        res = 0;
+    }
+    return res;
+}
+
 void test_matmul_square_matrices(void)
 {
+    //     float matrix_7_val[] = {
+    //     10, 20, 0, 0, 0, 0,
+    //     0, 30, 0, 40, 0, 0,
+    //     0, 0, 50, 60, 70, 0,
+    //     0, 0, 0, 0, 0, 80,
+    // };
+    // float **matrix_7 = matrix_generator_2d(matrix_7_val, 4, 6);
+
+    // float matrix_8_val[] = {
+    //     10, 0,
+    //     20, 0,
+    //     0, 0,
+    //     0, 20,
+    //     0, 0,
+    //     0, 0,
+    // };
+    // float **matrix_8 = matrix_generator_2d(matrix_8_val, 6, 2);
+
+    // float matrix_9_val[] = {
+    //     500, 0,
+    //     600, 800,
+    //     0, 1200,
+    //     0, 0,
+    // };
+    // float **matrix_9 = matrix_generator_2d(matrix_9_val, 4, 2);
     // correctness
     // float matrix_7_val[] = {1, 5, 6, 3, 2, 4};
     // float **matrix_7 = matrix_generator_2d(matrix_7_val, 2, 3);
@@ -18,91 +60,40 @@ void test_matmul_square_matrices(void)
     // float matrix_9_val[] = {33, 30};
     // float **matrix_9 = matrix_generator_2d(matrix_9_val, 2, 1);
 
-    // compare_matrices(matmul_blocking(matrix_7, matrix_8, 2,3,3,1), matrix_9,2, 1);
+    // float** func_res = matmul_sparse(matrix_7, matrix_8, 2,3,3,1);
 
-    // // sm size, 
-    // int sm_input_size = 10000;
-    // float sm_matrix_1_val[sm_input_size];
-    // for(int i = 0; i < sm_input_size; i++) {
-    //     sm_matrix_1_val[i] = rand();
-    // }
-    // float **sm_matrix_1 = matrix_generator_2d(sm_matrix_1_val, 100, 100);
+    // compare_matrices(matrix_9, func_res, 2, 1);
 
-    // float sm_matrix_2_val[sm_input_size];
-    // for(int i = 0; i < sm_input_size; i++) {
-    //     sm_matrix_2_val[i] = rand();
-    // }
-    // float **sm_matrix_2 = matrix_generator_2d(sm_matrix_2_val, 100, 100);
+    // big size
+    int input_size = 100;
+    int input_sq = input_size * input_size;
+    int loop_count = 1;
 
-    // md size, 
-    // int md_input_size = 197136;
-    // float md_matrix_1_val[md_input_size];
-    // for(int i = 0; i < md_input_size; i++) {
-    //     md_matrix_1_val[i] = rand();
-    // }
-    // float **md_matrix_1 = matrix_generator_2d(md_matrix_1_val, 444, 444);
-
-    // float md_matrix_2_val[md_input_size];
-    // for(int i = 0; i < md_input_size; i++) {
-    //     md_matrix_2_val[i] = rand();
-    // }
-    // float **md_matrix_2 = matrix_generator_2d(md_matrix_2_val, 444, 444);
-
-    // big size, 
-    int lg_input_size = 160000;
-    float lg_matrix_1_val[lg_input_size];
-    for(int i = 0; i < lg_input_size; i++) {
-        lg_matrix_1_val[i] = rand();
+    float matrix_1_val[input_sq];
+    for(int i = 0; i < input_sq; i++) {
+        matrix_1_val[i] = limited_rand();
     }
-    float **lg_matrix_1 = matrix_generator_2d(lg_matrix_1_val, 400, 400);
+    float **matrix_1 = matrix_generator_2d(matrix_1_val, input_size, input_size);
 
-    float lg_matrix_2_val[lg_input_size];
-    for(int i = 0; i < lg_input_size; i++) {
-        lg_matrix_2_val[i] = rand();
+    float matrix_2_val[input_sq];
+    for(int i = 0; i < input_sq; i++) {
+        matrix_2_val[i] = limited_rand();
     }
-    float **lg_matrix_2 = matrix_generator_2d(lg_matrix_2_val, 400, 400);
+    float **matrix_2 = matrix_generator_2d(matrix_2_val, input_size, input_size);
 
     clock_t start_time;
     clock_t end_time;
     double time_taken;
 
-    // start_time = clock();
-    // matmul(lg_matrix_1, lg_matrix_2, 1000, 1000, 1000, 1000);
-    // end_time = clock();
-
-    // time_taken = ((double) end_time - start_time) / CLOCKS_PER_SEC;
-    // printf("Time taken: %f seconds\n", time_taken);
-
-    // start_time = clock();
-    // matmul_blocking(sm_matrix_1, sm_matrix_2, 1000, 1000, 1000, 1000);
-    // end_time = clock();
-
-    // time_taken = ((double) end_time - start_time) / CLOCKS_PER_SEC;
-    // printf("Time taken blocking: %f seconds\n", time_taken);
-
-    // start_time = clock();
-    // matmul_blocking(md_matrix_1, md_matrix_2, 444, 444, 444, 444);
-    // end_time = clock();
-
-    // time_taken = ((double) end_time - start_time) / CLOCKS_PER_SEC;
-    // printf("Time taken blocking 444: %f seconds\n", time_taken);
-    
     start_time = clock();
-    matmul(lg_matrix_1, lg_matrix_2, 400, 400, 400, 400);
+    for (int loop=0; loop<loop_count; loop++) {
+        matmul_sparse(matrix_1, matrix_2, input_size, input_size, input_size, input_size);
+    }
     end_time = clock();
 
-    time_taken = ((double) end_time - start_time) / CLOCKS_PER_SEC;
-    printf("matmul basic 400 %f seconds\n", time_taken);
+    time_taken = ((double) end_time - start_time) / (CLOCKS_PER_SEC * loop_count);
+    printf("Time taken basic: %f seconds\n", time_taken);
 
-    // for (int i = 0; i < 2; i++)
-    // {
-    //     free(matrix_1[i]);
-    //     free(matrix_2[i]);
-    //     free(matrix_3[i]);
-    // }
-    // free(matrix_1);
-    // free(matrix_2);
-    // free(matrix_3);
 }
 
 void test_matmul_incompatible_dimensions(void)
@@ -121,7 +112,7 @@ void test_matmul_incompatible_dimensions(void)
     }
 
     // Run function under test
-    // float **C = matmul_blocking(A, B, 2, 3, 2, 2);
+    // float **C = matmul_sparse(A, B, 2, 3, 2, 2);
 
     // Check expectations
     // UNITY_TEST_ASSERT_NULL(C, __LINE__, "Expected NULL!");
