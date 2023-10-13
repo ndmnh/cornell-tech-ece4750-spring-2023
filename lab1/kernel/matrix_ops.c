@@ -1,6 +1,8 @@
 #include <stdlib.h>
 #include "matrix_ops.h"
 
+int BLK_SIZE = 32;
+
 typedef struct {
     float *nz_values;
     int *row_indices;
@@ -166,7 +168,7 @@ float **matmul(float **A, float **B, int A_rows, int A_cols, int B_rows, int B_c
 }
 
 
-float **matmul_blocking(float blk_size, float **A, float **B, int A_rows, int A_cols, int B_rows, int B_cols) {
+float **matmul_blocking(float **A, float **B, int A_rows, int A_cols, int B_rows, int B_cols) {
     if (A_cols != B_rows) {
         printf("Matrix dimensions incompatible for multiplication.\n");
         return NULL;
@@ -180,13 +182,13 @@ float **matmul_blocking(float blk_size, float **A, float **B, int A_rows, int A_
         }
     }
 
-    for (int ii = 0; ii < A_rows; ii += blk_size) {
-        for (int jj = 0; jj < B_cols; jj += blk_size) {
-            for (int kk = 0; kk < A_cols; kk += blk_size) {
+    for (int ii = 0; ii < A_rows; ii += BLK_SIZE) {
+        for (int jj = 0; jj < B_cols; jj += BLK_SIZE) {
+            for (int kk = 0; kk < A_cols; kk += BLK_SIZE) {
                 // Multiply the tiles
-                for (int i = ii; i < ii + blk_size && i < A_rows; i++) {
-                    for (int j = jj; j < jj + blk_size && j < B_cols; j++) {
-                        for (int k = kk; k < kk + blk_size && k < A_cols; k++) {
+                for (int i = ii; i < ii + BLK_SIZE && i < A_rows; i++) {
+                    for (int j = jj; j < jj + BLK_SIZE && j < B_cols; j++) {
+                        for (int k = kk; k < kk + BLK_SIZE && k < A_cols; k++) {
                             C[i][j] += A[i][k] * B[k][j];
                         }
                     }
