@@ -18,7 +18,7 @@ void test_matmul_square_matrices(void)
     // float matrix_9_val[] = {33, 30};
     // float **matrix_9 = matrix_generator_2d(matrix_9_val, 2, 1);
 
-    // compare_matrices(matmul_blocking(1, matrix_7, matrix_8, 2,3,3,1), matrix_9,2, 1);
+    // compare_matrices(matmul_blocking(matrix_7, matrix_8, 2,3,3,1), matrix_9,2, 1);
 
     // // sm size, 
     // int sm_input_size = 10000;
@@ -74,14 +74,14 @@ void test_matmul_square_matrices(void)
     // printf("Time taken: %f seconds\n", time_taken);
 
     // start_time = clock();
-    // matmul_blocking(40, sm_matrix_1, sm_matrix_2, 1000, 1000, 1000, 1000);
+    // matmul_blocking(sm_matrix_1, sm_matrix_2, 1000, 1000, 1000, 1000);
     // end_time = clock();
 
     // time_taken = ((double) end_time - start_time) / CLOCKS_PER_SEC;
     // printf("Time taken blocking: %f seconds\n", time_taken);
 
     // start_time = clock();
-    // matmul_blocking(40, md_matrix_1, md_matrix_2, 444, 444, 444, 444);
+    // matmul_blocking(md_matrix_1, md_matrix_2, 444, 444, 444, 444);
     // end_time = clock();
 
     // time_taken = ((double) end_time - start_time) / CLOCKS_PER_SEC;
@@ -121,7 +121,7 @@ void test_matmul_incompatible_dimensions(void)
     }
 
     // Run function under test
-    // float **C = matmul_blocking(1, A, B, 2, 3, 2, 2);
+    // float **C = matmul_blocking(A, B, 2, 3, 2, 2);
 
     // Check expectations
     // UNITY_TEST_ASSERT_NULL(C, __LINE__, "Expected NULL!");
