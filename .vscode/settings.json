@@ -21,6 +21,8 @@
         "chrono": "c",
         "variant": "c",
         "matrix_ops.h": "c",
-        "conv.h": "c"
+        "conv.h": "c",
+        "functional": "c",
+        "test_matrix_ops.h": "c"
     }
 }
