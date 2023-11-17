@@ -25,32 +25,7 @@ int limited_rand() {
 
 void test_matmul_square_matrices(void)
 {
-    //     float matrix_7_val[] = {
-    //     10, 20, 0, 0, 0, 0,
-    //     0, 30, 0, 40, 0, 0,
-    //     0, 0, 50, 60, 70, 0,
-    //     0, 0, 0, 0, 0, 80,
-    // };
-    // float **matrix_7 = matrix_generator_2d(matrix_7_val, 4, 6);
-
-    // float matrix_8_val[] = {
-    //     10, 0,
-    //     20, 0,
-    //     0, 0,
-    //     0, 20,
-    //     0, 0,
-    //     0, 0,
-    // };
-    // float **matrix_8 = matrix_generator_2d(matrix_8_val, 6, 2);
-
-    // float matrix_9_val[] = {
-    //     500, 0,
-    //     600, 800,
-    //     0, 1200,
-    //     0, 0,
-    // };
-    // float **matrix_9 = matrix_generator_2d(matrix_9_val, 4, 2);
-    // correctness
+    // // correctness
     // float matrix_7_val[] = {1, 5, 6, 3, 2, 4};
     // float **matrix_7 = matrix_generator_2d(matrix_7_val, 2, 3);
 
@@ -60,14 +35,14 @@ void test_matmul_square_matrices(void)
     // float matrix_9_val[] = {33, 30};
     // float **matrix_9 = matrix_generator_2d(matrix_9_val, 2, 1);
 
-    // float** func_res = matmul_sparse(matrix_7, matrix_8, 2,3,3,1);
+    // float** func_res = matmul_multithread(matrix_7, matrix_8, 2,3,3,1);
 
     // compare_matrices(matrix_9, func_res, 2, 1);
 
-    // big size
+    // profile
     int input_size = 100;
     int input_sq = input_size * input_size;
-    int loop_count = 1;
+    int loop_count = 10;
 
     float matrix_1_val[input_sq];
     for(int i = 0; i < input_sq; i++) {
@@ -87,13 +62,12 @@ void test_matmul_square_matrices(void)
 
     start_time = clock();
     for (int loop=0; loop<loop_count; loop++) {
-        matmul_sparse(matrix_1, matrix_2, input_size, input_size, input_size, input_size);
+        matmul(matrix_1, matrix_2, input_size, input_size, input_size, input_size);
     }
     end_time = clock();
 
     time_taken = ((double) end_time - start_time) / (CLOCKS_PER_SEC * loop_count);
     printf("Time taken basic: %f seconds\n", time_taken);
-
 }
 
 void test_matmul_incompatible_dimensions(void)
