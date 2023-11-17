@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include "matrix_ops.h"
+#include <pthread.h>
 
 int BLK_SIZE = 32;
 
@@ -11,6 +12,14 @@ typedef struct {
     int ncols;
     int nnz; // Number of non-zero elements
 } CSRMatrix;
+
+typedef struct {
+    float **A, **B, **C;
+    int row, A_cols, B_cols;
+} ThreadArgs;
+
+#define CACHE_LINE_SIZE 64 // Common cache line size
+
 
 
 // make CSR matrix from (sparse) matrix
@@ -122,7 +131,6 @@ float **matmul(float **A, float **B, int A_rows, int A_cols, int B_rows, int B_c
     return C;
 }
 
-
 float **matmul_blocking(float **A, float **B, int A_rows, int A_cols, int B_rows, int B_cols) {
     if (A_cols != B_rows) {
         printf("Matrix dimensions incompatible for multiplication.\n");
@@ -151,6 +159,47 @@ float **matmul_blocking(float **A, float **B, int A_rows, int A_cols, int B_rows
             }
         }
     }
+
+    return C;
+}
+
+void *multiply_row(void *arg) {
+    ThreadArgs *args = (ThreadArgs *)arg;
+    int row = args->row;
+    for (int j = 0; j < args->B_cols; j++) {
+        args->C[row][j] = 0;
+        for (int k = 0; k < args->A_cols; k++) {
+            args->C[row][j] += args->A[row][k] * args->B[k][j];
+        }
+    }
+    return NULL;
+}
+
+float **matmul_multithread(float **A, float **B, int A_rows, int A_cols, int B_rows, int B_cols) {
+    if (A_cols != B_rows) {
+        printf("Matrix dimensions incompatible for multiplication.\n");
+        return NULL;
+    }
+
+    float **C = (float **)malloc(A_rows * sizeof(float *));
+    for (int i = 0; i < A_rows; i++) {
+        C[i] = (float *)aligned_alloc(CACHE_LINE_SIZE, B_cols * sizeof(float));
+    }
+
+    pthread_t *threads = (pthread_t *)malloc(A_rows * sizeof(pthread_t));
+    ThreadArgs *thread_args = (ThreadArgs *)malloc(A_rows * sizeof(ThreadArgs));
+
+    for (int i = 0; i < A_rows; i++) {
+        thread_args[i] = (ThreadArgs){A, B, C, i, A_cols, B_cols};
+        pthread_create(&threads[i], NULL, multiply_row, &thread_args[i]);
+    }
+
+    for (int i = 0; i < A_rows; i++) {
+        pthread_join(threads[i], NULL);
+    }
+
+    free(threads);
+    free(thread_args);
 
     return C;
 }

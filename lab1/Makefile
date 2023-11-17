@@ -15,7 +15,7 @@ test: all_tests
 
 .PHONY: all_tests
 all_tests: 
-	$(CC) -o tests/$@ $(TEST_FILES) $(UNITY_FILES) $(COMMON_SRC) $(CFLAGS) $(HDF5_FLAGS) 
+	$(CC) -o tests/$@ $(TEST_FILES) $(UNITY_FILES) $(COMMON_SRC) $(CFLAGS) $(HDF5_FLAGS) -lpthread 
 	./tests/$@
 	
 .PHONY: clean
